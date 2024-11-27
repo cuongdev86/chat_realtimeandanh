@@ -22,6 +22,9 @@
         .chat-message .sender {
             font-weight: bold;
         }
+        .chat-message-right {
+            text-align: end;
+        }
     </style>
 </head>
 <body>
@@ -43,7 +46,7 @@
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        const socket = io('http://10.10.3.32:3000', { transports : ['websocket'] }); // Kết nối tới Node.js server
+        const socket = io('https://hoiandanhapi.folkgifts.com.vn', { transports : ['websocket'] }); // Kết nối tới Node.js server
         const chatBox = $('#chatBox');
         const messageInput = $('#messageInput');
         const sendMessageBtn = $('#sendMessageBtn');
@@ -72,7 +75,8 @@
                 });
 
                 // Hiển thị tin nhắn của bạn
-                appendMessage('You', message);
+                // appendMessage('You', message);
+                appendMessageAlignEnd('You', message);
                 messageInput.val('');
             }
         }
@@ -87,6 +91,18 @@
             if(sender != userId){
                 chatBox.append(`
                 <div class="chat-message">
+                    <span class="sender">${sender}:</span> ${message}
+                </div>
+            `);
+            chatBox.scrollTop(chatBox[0].scrollHeight); // Tự động cuộn xuống dưới cùng
+            }
+           
+        }
+
+        function appendMessageAlignEnd(sender, message) {
+            if(sender != userId){
+                chatBox.append(`
+                <div class="chat-message chat-message-right">
                     <span class="sender">${sender}:</span> ${message}
                 </div>
             `);
